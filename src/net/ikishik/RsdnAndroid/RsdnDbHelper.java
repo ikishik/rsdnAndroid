@@ -173,7 +173,6 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 			
 			
 			onCreate(db);
-			
 		}
 	}
 
