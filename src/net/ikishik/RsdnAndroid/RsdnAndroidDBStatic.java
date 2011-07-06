@@ -588,7 +588,7 @@ public final class RsdnAndroidDBStatic
          * The ModerateAction
          * <P>Type: VARCHAR(255)</P>
          */
-        public static final String ModerateAction = "ModerateAction";
+        public static final String MODERATEACTION = "ModerateAction";
         
         /**
          * The ModerateToForumId of the moderate
