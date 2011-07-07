@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+//import net.ikishik.rsdnClient.*;
+
 public class RsdnAndroidActivity extends Activity {
     /** Called when the activity is first created. */
     @Override
@@ -15,6 +17,19 @@ public class RsdnAndroidActivity extends Activity {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
       
         db.close();
-
+        
+        //JanusAT service = new JanusAT();
+        //ChangeRequest creq = new ChangeRequest();
+        //creq.setuserName("Demandred");
+        //creq.setpassword("");
+        
+        //try {
+		//	service.GetNewData(creq);
+		//} catch (Exception e) {
+			// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		//}
+        
+        
     }
 }
