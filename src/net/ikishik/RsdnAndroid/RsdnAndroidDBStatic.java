@@ -495,6 +495,12 @@ public final class RsdnAndroidDBStatic
         public static final String FORUMID = "forumId";
         
         /**
+         * The status of the message
+         * <P>Type: INTEGER</P>
+         */
+        public static final String STATUS = "Status";
+        
+        /**
          * The subject of the message
          * <P>Type: TEXT</P>
          */
@@ -541,6 +547,12 @@ public final class RsdnAndroidDBStatic
          * <P>Type: INTEGER</P>
          */
         public static final String MESSAGEID = "messageId";
+        
+        /**
+         * The status of the rates
+         * <P>Type: INTEGER</P>
+         */
+        public static final String STATUS = "Status";
 
         /**
          * The rate of the message
@@ -583,6 +595,12 @@ public final class RsdnAndroidDBStatic
          * <P>Type: INTEGER</P>
          */
         public static final String MESSAGEID = "MessageId";
+        
+        /**
+         * The status of the moderate
+         * <P>Type: INTEGER</P>
+         */
+        public static final String STATUS = "Status";
 
         /**
          * The ModerateAction
@@ -754,5 +772,100 @@ public final class RsdnAndroidDBStatic
          
     }
 
+    /**
+     * UserRequests table
+     */
+    public static final class UserRequests implements BaseColumns 
+    {
+        // This class cannot be instantiated
+        private UserRequests() {}
+
+        /**
+         * The content:// style URL for this table
+         */
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/userrequests");
+
+        /**
+         * The MIME type of {@link #CONTENT_URI} providing a directory of notes.
+         */
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/net.ikishik.userrequest";
+
+        /**
+         * The MIME type of a {@link #CONTENT_URI} sub-directory of a single note.
+         */
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/net.ikishik.userrequest";
+
+        /**
+         * The default sort order for this table
+         */
+        public static final String DEFAULT_SORT_ORDER = "_id DESC";
+
+        /**
+         * The ReqDate of the UserRequests
+         * <P>Type: DATETIME</P>
+         */
+        public static final String REQDATE = "ReqDate";
+
+        /**
+         * The lastRowVersion of the UserRequests
+         * <P>Type: BLOB</P>
+         */
+        public static final String LASTROWVERSION = "lastRowVersion";
+         
+    }
+    
+    /**
+     * DataRequests table
+     */
+    public static final class DataRequests implements BaseColumns 
+    {
+        // This class cannot be instantiated
+        private DataRequests() {}
+
+        /**
+         * The content:// style URL for this table
+         */
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/datarequests");
+
+        /**
+         * The MIME type of {@link #CONTENT_URI} providing a directory of notes.
+         */
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/net.ikishik.datarequest";
+
+        /**
+         * The MIME type of a {@link #CONTENT_URI} sub-directory of a single note.
+         */
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/net.ikishik.datarequest";
+
+        /**
+         * The default sort order for this table
+         */
+        public static final String DEFAULT_SORT_ORDER = "_id DESC";
+
+        /**
+         * The ReqDate of the DataRequests
+         * <P>Type: DATETIME</P>
+         */
+        public static final String REQDATE = "ReqDate";
+
+        /**
+         * The messageRowVersion of the DataRequests
+         * <P>Type: BLOB</P>
+         */
+        public static final String MESSAGEROWVERSION = "messageRowVersion";
+        
+        /**
+         * The moderateRowVersion of the DataRequests
+         * <P>Type: BLOB</P>
+         */
+        public static final String MODERATEROWVERSION = "moderateRowVersion";
+        
+        /**
+         * The ratingRowVersion of the DataRequests
+         * <P>Type: BLOB</P>
+         */
+        public static final String RATINGROWVERSION = "ratingRowVersion";
+         
+    }
 }
 

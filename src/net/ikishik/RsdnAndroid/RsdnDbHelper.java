@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class RsdnDbHelper extends SQLiteOpenHelper {
 
-	 private static final int DB_VERSION = 1;
+	 private static final int DB_VERSION = 2;
 	 private static final String DB_NAME = "rsdn.db";
 	 
 	 public static final String tbl_ForumGroups = "ForumGroups";
@@ -26,6 +26,9 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 	 public static final String tbl_Exceptions = "Exceptions";
 	 public static final String tbl_RatingExceptions = "RatingExceptions";
 	 public static final String tbl_ModerateExceptions = "ModerateExceptions";
+	 
+	 public static final String tbl_UserRequests = "UserRequests";
+	 public static final String tbl_DataRequests = "DataRequests";
 
 	 	
 	public RsdnDbHelper(Context context) {
@@ -108,6 +111,7 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 		String create_tbl_wMessages = "create table " + tbl_wMessages + " ( _id integer primary key autoincrement, "
 				+ "parentId INTEGER, "
 				+ "forumId INTEGER, "
+				+ "status INTEGER, "
 				+ "subject TEXT, "
 				+ "message TEXT)";
 
@@ -115,12 +119,14 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 		
 		String create_tbl_wRates = "create table " + tbl_wRates + " ( _id integer primary key autoincrement, "
 				+ "messageId INTEGER, "
+				+ "status INTEGER, "
 				+ "rate INTEGER)";
 
 		db.execSQL(create_tbl_wRates);
 		
 		String create_tbl_wModerates = "create table " + tbl_wModerates + " ( _id integer primary key autoincrement, "
 				+ "MessageId INTEGER, "
+				+ "status INTEGER, "
 				+ "ModerateAction VARCHAR(255), "
 				+ "ModerateToForumId INTEGER, "
 				+ "Description TEXT, "
@@ -149,6 +155,20 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 
 		db.execSQL(create_tbl_ModerateExceptions);
 		
+		String create_tbl_UserRequests = "create table " + tbl_UserRequests + " ( _id integer primary key autoincrement, "
+				+ "ReqDate DATETIME, "
+				+ "lastRowVersion BLOB)";
+
+		db.execSQL(create_tbl_UserRequests);
+		
+		String create_tbl_DataRequests = "create table " + tbl_DataRequests + " ( _id integer primary key autoincrement, "
+				+ "ReqDate DATETIME, "
+				+ "messageRowVersion BLOB, "
+				+ "moderateRowVersion BLOB, "
+				+ "ratingRowVersion BLOB)";
+
+		db.execSQL(create_tbl_DataRequests);
+		
 	}
 
 	@Override
@@ -170,6 +190,9 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 			db.execSQL("DROP TABLE IF EXISTS " + tbl_Exceptions);
 			db.execSQL("DROP TABLE IF EXISTS " + tbl_RatingExceptions);
 			db.execSQL("DROP TABLE IF EXISTS " + tbl_ModerateExceptions);
+			
+			db.execSQL("DROP TABLE IF EXISTS " + tbl_UserRequests);
+			db.execSQL("DROP TABLE IF EXISTS " + tbl_DataRequests);
 			
 			
 			onCreate(db);

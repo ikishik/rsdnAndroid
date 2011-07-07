@@ -12,6 +12,8 @@ import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.wModerates;
 import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.Exceptions;
 import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.RatingExceptions;
 import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.ModerateExceptions;
+import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.UserRequests;
+import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.DataRequests;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -49,6 +51,8 @@ public class RsdnAndroidProvider extends ContentProvider {
     private static final String EXCEPTIONS_TABLE_NAME = "Exceptions";
     private static final String RATINGEXCEPTIONS_TABLE_NAME = "RatingExceptions";
     private static final String MODERATEEXCEPTIONS_TABLE_NAME = "ModerateExceptions";
+    private static final String USERREQUESTS_TABLE_NAME = "UserRequests";
+    private static final String DATAREQUESTS_TABLE_NAME = "DataRequests";
 
     private static HashMap<String, String> sForumGroupsProjectionMap;
     private static HashMap<String, String> sForumsProjectionMap;
@@ -62,6 +66,8 @@ public class RsdnAndroidProvider extends ContentProvider {
     private static HashMap<String, String> sExceptionsProjectionMap;
     private static HashMap<String, String> sRatingExceptionsProjectionMap;
     private static HashMap<String, String> sModerateExceptionsProjectionMap;
+    private static HashMap<String, String> sUserRequestsProjectionMap;
+    private static HashMap<String, String> sDataRequestsProjectionMap;
 
     private static final int FORUMGROUPS = 1;
     private static final int FORUMGROUP_ID = 2;
@@ -98,6 +104,12 @@ public class RsdnAndroidProvider extends ContentProvider {
     
     private static final int MODERATEEXCEPTIONS = 23;
     private static final int MODERATEEXCEPTION_ID = 24;
+    
+    private static final int USERREQUESTS = 25;
+    private static final int USERREQUEST_ID = 26;
+    
+    private static final int DATAREQUESTS = 27;
+    private static final int DATAREQUEST_ID = 28;
 
     private static final UriMatcher sUriMatcher;
 
@@ -298,6 +310,36 @@ public class RsdnAndroidProvider extends ContentProvider {
             orderBy = ModerateExceptions.DEFAULT_SORT_ORDER;
             
             break;
+        case USERREQUESTS:
+            qb.setTables(USERREQUESTS_TABLE_NAME);
+            qb.setProjectionMap(sUserRequestsProjectionMap);
+            
+            orderBy = UserRequests.DEFAULT_SORT_ORDER;
+            
+            break;
+        case USERREQUEST_ID:
+            qb.setTables(USERREQUESTS_TABLE_NAME);
+            qb.setProjectionMap(sUserRequestsProjectionMap);
+            qb.appendWhere(UserRequests._ID + "=" + uri.getPathSegments().get(1));
+            
+            orderBy = UserRequests.DEFAULT_SORT_ORDER;
+            
+            break;
+        case DATAREQUESTS:
+            qb.setTables(DATAREQUESTS_TABLE_NAME);
+            qb.setProjectionMap(sDataRequestsProjectionMap);
+            
+            orderBy = DataRequests.DEFAULT_SORT_ORDER;
+            
+            break;
+        case DATAREQUEST_ID:
+            qb.setTables(DATAREQUESTS_TABLE_NAME);
+            qb.setProjectionMap(sDataRequestsProjectionMap);
+            qb.appendWhere(DataRequests._ID + "=" + uri.getPathSegments().get(1));
+            
+            orderBy = DataRequests.DEFAULT_SORT_ORDER;
+            
+            break;
         default:
             throw new IllegalArgumentException("Unknown URI " + uri);
         }   
@@ -368,6 +410,14 @@ public class RsdnAndroidProvider extends ContentProvider {
             return ModerateExceptions.CONTENT_TYPE;
         case MODERATEEXCEPTION_ID:
             return ModerateExceptions.CONTENT_ITEM_TYPE;
+        case USERREQUESTS:
+            return UserRequests.CONTENT_TYPE;
+        case USERREQUEST_ID:
+            return UserRequests.CONTENT_ITEM_TYPE;
+        case DATAREQUESTS:
+            return DataRequests.CONTENT_TYPE;
+        case DATAREQUEST_ID:
+            return DataRequests.CONTENT_ITEM_TYPE;
         default:
             throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -567,6 +617,9 @@ public class RsdnAndroidProvider extends ContentProvider {
              if (values.containsKey(wMessages.FORUMID) == false) {
                  values.put(wMessages.FORUMID, 0);
              }
+             if (values.containsKey(wMessages.STATUS) == false) {
+                 values.put(wMessages.STATUS, 0);
+             }
              if (values.containsKey(wMessages.SUBJECT) == false) {
                  values.put(wMessages.SUBJECT, "");
              }
@@ -582,6 +635,9 @@ public class RsdnAndroidProvider extends ContentProvider {
         	 if (values.containsKey(wRates.MESSAGEID) == false) {
                  values.put(wRates.MESSAGEID, 0);
              }
+        	 if (values.containsKey(wRates.STATUS) == false) {
+                 values.put(wRates.STATUS, 0);
+             }
              if (values.containsKey(wRates.RATE) == false) {
                  values.put(wRates.RATE, 0);
              }
@@ -593,6 +649,9 @@ public class RsdnAndroidProvider extends ContentProvider {
          case WMODERATES:
         	 if (values.containsKey(wModerates.MESSAGEID) == false) {
                  values.put(wModerates.MESSAGEID, 0);
+             }
+        	 if (values.containsKey(wModerates.STATUS) == false) {
+                 values.put(wModerates.STATUS, 0);
              }
         	 if (values.containsKey(wModerates.MODERATEACTION) == false) {
                  values.put(wModerates.MODERATEACTION, "");
@@ -654,6 +713,36 @@ public class RsdnAndroidProvider extends ContentProvider {
              
              tableName = MODERATEEXCEPTIONS_TABLE_NAME;
              contentURI = ModerateExceptions.CONTENT_URI;
+             
+             break;
+         case USERREQUESTS:
+        	 if (values.containsKey(UserRequests.REQDATE) == false) {
+                 values.put(UserRequests.REQDATE, new Date().toString());
+             }
+        	 if (values.containsKey(UserRequests.LASTROWVERSION) == false) {
+                 values.put(UserRequests.LASTROWVERSION, 0);
+             }
+            
+             tableName = USERREQUESTS_TABLE_NAME;
+             contentURI = UserRequests.CONTENT_URI;
+             
+             break;
+         case DATAREQUESTS:
+        	 if (values.containsKey(DataRequests.REQDATE) == false) {
+                 values.put(DataRequests.REQDATE, new Date().toString());
+             }
+        	 if (values.containsKey(DataRequests.MESSAGEROWVERSION) == false) {
+                 values.put(DataRequests.MESSAGEROWVERSION, 0);
+             }
+        	 if (values.containsKey(DataRequests.MODERATEROWVERSION) == false) {
+                 values.put(DataRequests.MODERATEROWVERSION, 0);
+             }
+        	 if (values.containsKey(DataRequests.RATINGROWVERSION) == false) {
+                 values.put(DataRequests.RATINGROWVERSION, 0);
+             }
+            
+             tableName = DATAREQUESTS_TABLE_NAME;
+             contentURI = DataRequests.CONTENT_URI;
              
              break;
          default:
@@ -772,6 +861,22 @@ public class RsdnAndroidProvider extends ContentProvider {
             count = db.delete(MODERATEEXCEPTIONS_TABLE_NAME, ModerateExceptions._ID + "=" + mexcId
                     + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
             break;
+        case USERREQUESTS:
+            count = db.delete(USERREQUESTS_TABLE_NAME, where, whereArgs);
+            break;
+        case USERREQUEST_ID:
+            String urId = uri.getPathSegments().get(1);
+            count = db.delete(USERREQUESTS_TABLE_NAME, UserRequests._ID + "=" + urId
+                    + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+            break;
+        case DATAREQUESTS:
+            count = db.delete(DATAREQUESTS_TABLE_NAME, where, whereArgs);
+            break;
+        case DATAREQUEST_ID:
+            String drId = uri.getPathSegments().get(1);
+            count = db.delete(DATAREQUESTS_TABLE_NAME, DataRequests._ID + "=" + drId
+                    + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+            break;
         default:
             throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -881,6 +986,22 @@ public class RsdnAndroidProvider extends ContentProvider {
             count = db.update(MODERATEEXCEPTIONS_TABLE_NAME, values, ModerateExceptions._ID + "=" + noteMExcId
                     + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
             break;
+        case USERREQUESTS:
+            count = db.update(USERREQUESTS_TABLE_NAME, values, where, whereArgs);
+            break;
+        case USERREQUEST_ID:
+            String noteURId = uri.getPathSegments().get(1);
+            count = db.update(USERREQUESTS_TABLE_NAME, values, UserRequests._ID + "=" + noteURId
+                    + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+            break;
+        case DATAREQUESTS:
+            count = db.update(DATAREQUESTS_TABLE_NAME, values, where, whereArgs);
+            break;
+        case DATAREQUEST_ID:
+            String noteDRId = uri.getPathSegments().get(1);
+            count = db.update(DATAREQUESTS_TABLE_NAME, values, DataRequests._ID + "=" + noteDRId
+                    + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+            break;
         default:
             throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -927,6 +1048,12 @@ public class RsdnAndroidProvider extends ContentProvider {
         
         sUriMatcher.addURI(RsdnAndroidDBStatic.AUTHORITY, "moderateexceptions", MODERATEEXCEPTIONS);
         sUriMatcher.addURI(RsdnAndroidDBStatic.AUTHORITY, "moderateexceptions/#", MODERATEEXCEPTION_ID);
+        
+        sUriMatcher.addURI(RsdnAndroidDBStatic.AUTHORITY, "userrequests", USERREQUESTS);
+        sUriMatcher.addURI(RsdnAndroidDBStatic.AUTHORITY, "userrequests/#", USERREQUEST_ID);
+        
+        sUriMatcher.addURI(RsdnAndroidDBStatic.AUTHORITY, "datarequests", DATAREQUESTS);
+        sUriMatcher.addURI(RsdnAndroidDBStatic.AUTHORITY, "datarequests/#", DATAREQUEST_ID);
 
         sForumGroupsProjectionMap = new HashMap<String, String>();
         sForumGroupsProjectionMap.put(ForumGroups._ID, ForumGroups._ID);
@@ -995,17 +1122,20 @@ public class RsdnAndroidProvider extends ContentProvider {
         swMessagesProjectionMap.put(wMessages._ID, wMessages._ID);
         swMessagesProjectionMap.put(wMessages.PARENTID, wMessages.PARENTID);
         swMessagesProjectionMap.put(wMessages.FORUMID, wMessages.FORUMID);
+        swMessagesProjectionMap.put(wMessages.STATUS, wMessages.STATUS);
         swMessagesProjectionMap.put(wMessages.SUBJECT, wMessages.SUBJECT);
         swMessagesProjectionMap.put(wMessages.MESSAGE, wMessages.MESSAGE);
         
         swRatesProjectionMap = new HashMap<String, String>();
         swRatesProjectionMap.put(wRates._ID, wRates._ID);
         swRatesProjectionMap.put(wRates.MESSAGEID, wRates.MESSAGEID);
+        swRatesProjectionMap.put(wRates.STATUS, wRates.STATUS);
         swRatesProjectionMap.put(wRates.RATE, wRates.RATE);
         
         swModeratesProjectionMap = new HashMap<String, String>();
         swModeratesProjectionMap.put(wModerates._ID, Moderates._ID);
         swModeratesProjectionMap.put(wModerates.MESSAGEID, wModerates.MESSAGEID);
+        swModeratesProjectionMap.put(wModerates.STATUS, wModerates.STATUS);
         swModeratesProjectionMap.put(wModerates.MODERATEACTION, wModerates.MODERATEACTION);
         swModeratesProjectionMap.put(wModerates.MODERATETOFORUMID, wModerates.MODERATETOFORUMID);
         swModeratesProjectionMap.put(wModerates.DESCRIPTION, wModerates.DESCRIPTION);
@@ -1028,5 +1158,17 @@ public class RsdnAndroidProvider extends ContentProvider {
         sModerateExceptionsProjectionMap.put(ModerateExceptions.EXCEPTIONMESSAGE, ModerateExceptions.EXCEPTIONMESSAGE);
         sModerateExceptionsProjectionMap.put(ModerateExceptions.LOCALMODERATEID, ModerateExceptions.LOCALMODERATEID);
         sModerateExceptionsProjectionMap.put(ModerateExceptions.INFO, ModerateExceptions.INFO);
+        
+        sUserRequestsProjectionMap = new HashMap<String, String>();
+        sUserRequestsProjectionMap.put(UserRequests._ID, UserRequests._ID);
+        sUserRequestsProjectionMap.put(UserRequests.REQDATE, UserRequests.REQDATE);
+        sUserRequestsProjectionMap.put(UserRequests.LASTROWVERSION, UserRequests.LASTROWVERSION);
+        
+        sDataRequestsProjectionMap = new HashMap<String, String>();
+        sDataRequestsProjectionMap.put(DataRequests._ID, DataRequests._ID);
+        sDataRequestsProjectionMap.put(DataRequests.REQDATE, UserRequests.REQDATE);
+        sDataRequestsProjectionMap.put(DataRequests.MESSAGEROWVERSION, DataRequests.MESSAGEROWVERSION);
+        sDataRequestsProjectionMap.put(DataRequests.MODERATEROWVERSION, DataRequests.MODERATEROWVERSION);
+        sDataRequestsProjectionMap.put(DataRequests.RATINGROWVERSION, DataRequests.RATINGROWVERSION);
     }
 }
