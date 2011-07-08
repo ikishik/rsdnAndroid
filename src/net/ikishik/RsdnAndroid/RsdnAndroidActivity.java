@@ -1,10 +1,12 @@
 package net.ikishik.RsdnAndroid;
 
+import java.util.Vector;
+
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
-//import net.ikishik.rsdnClient.*;
+import net.ikishik.rsdnClient.*;
 
 public class RsdnAndroidActivity extends Activity {
     /** Called when the activity is first created. */
@@ -18,17 +20,20 @@ public class RsdnAndroidActivity extends Activity {
       
         db.close();
         
-        //JanusAT service = new JanusAT();
-        //ChangeRequest creq = new ChangeRequest();
-        //creq.setuserName("Demandred");
-        //creq.setpassword("");
+        JanusAT service = new JanusAT();
+        ForumRequest creq = new ForumRequest();
+        creq.setuserName("Demandred");
+        creq.setpassword("kishik");
         
-        //try {
-		//	service.GetNewData(creq);
-		//} catch (Exception e) {
+        
+        try {
+			ForumResponse resp = service.GetForumList(creq);
+			Vector<JanusForumInfo> msgs = resp.getforumList();
+			
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-		//	e.printStackTrace();
-		//}
+			e.printStackTrace();
+		}
         
         
     }

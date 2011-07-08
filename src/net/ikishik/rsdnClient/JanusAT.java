@@ -7,7 +7,8 @@ public class JanusAT extends Soap12WebService{
 	
 	
 	public JanusAT(){
-		this.setUrl("/ws/janusAT.asmx");
+		//this.setUrl("/ws/janusAT.asmx");
+		this.setUrl("http://rsdn.ru/ws/janusAT.asmx");
 	}
 	
 	
@@ -31,6 +32,17 @@ public class JanusAT extends Soap12WebService{
 		SoapResponse sr = getSoapResponse(req);
 		Element __response = (Element)sr.body.getFirstChild().getFirstChild();
 		return ChangeResponse.loadFrom(__response);
+	}
+	
+	public ForumResponse GetForumList(ForumRequest forumRequest) throws Exception 
+	{
+		SoapRequest req;
+		req = buildSoapRequest("GetForumList","http://rsdn.ru/Janus/","http://rsdn.ru/Janus/GetForumList",null);
+		Element __request = req.method;
+		WSHelper.addChildNode(__request,"forumRequest",null,forumRequest);
+		SoapResponse sr = getSoapResponse(req);
+		Element __response = (Element)sr.body.getFirstChild().getFirstChild();
+		return ForumResponse.loadFrom(__response);
 	}
 	
 }
