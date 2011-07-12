@@ -9,12 +9,10 @@ import org.w3c.dom.NodeList;
 public class WSNodeList extends Vector<Node> implements NodeList
 {
 
-	@Override
 	public int getLength() {
 		return this.size();
 	}
 
-	@Override
 	public Node item(int index) {
 		return this.elementAt(index);
 	}

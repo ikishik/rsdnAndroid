@@ -18,7 +18,6 @@ public class ResultHandler {
 		handler.post(
 			new Runnable()
 			{
-				@Override
 				public void run()
 				{
 					onStart();
@@ -32,7 +31,6 @@ public class ResultHandler {
 		handler.post(
 			new Runnable()
 			{
-				@Override
 				public void run()
 				{
 					onBeforeError(error);
@@ -48,7 +46,6 @@ public class ResultHandler {
 		handler.post(
 			new Runnable()
 			{
-				@Override
 				public void run()
 				{
 					onBeforeResult();

@@ -15,7 +15,6 @@ public class ServiceResponseHandler<T>{
 	
 	public final void onExecuteStart(){
 		currentHandler.post(new Runnable(){
-			@Override
 			public void run() {
 				onStart();
 			}			
@@ -31,7 +30,6 @@ public class ServiceResponseHandler<T>{
 		error = e;
 		currentHandler.post(new Runnable() {
 			
-			@Override
 			public void run() {
 				onBeforeError(error);
 				onError(error);				
@@ -56,7 +54,6 @@ public class ServiceResponseHandler<T>{
 		this.result = _result;
 		currentHandler.post(new Runnable() {
 			
-			@Override
 			public void run() {
 				onBeforeResult(result);
 				onResult(result);

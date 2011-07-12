@@ -12,7 +12,6 @@ public class ServiceRequest implements Runnable {
 	
 	protected Object __result = null;
 
-	@Override
 	public final void run() {
 		// TODO Auto-generated method stub
 		try{
