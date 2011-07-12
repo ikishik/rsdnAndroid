@@ -3,12 +3,12 @@ package net.ikishik.rsdnClient;
 import com.neurospeech.wsclient.*;
 import org.w3c.dom.*;
 
-public class JanusAT extends Soap12WebService{
+public class JanusAT extends SoapWebService{
 	
 	
 	public JanusAT(){
 		//this.setUrl("/ws/janusAT.asmx");
-		this.setUrl("http://rsdn.ru/ws/janusAT.asmx");
+		this.setUrl("http://www.rsdn.ru/ws/janusAT.asmx");
 	}
 	
 	
