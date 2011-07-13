@@ -439,6 +439,9 @@ public class RsdnAndroidProvider extends ContentProvider {
     	
     	switch (sUriMatcher.match(uri)) {
          case FORUMGROUPS:
+        	 if (values.containsKey(ForumGroups.SERVERID) == false) {
+                 values.put(ForumGroups.SERVERID, 0);
+             }
         	 if (values.containsKey(ForumGroups.FORUMGROUPNAME) == false) {
                  values.put(ForumGroups.FORUMGROUPNAME, "");
              }
@@ -452,6 +455,9 @@ public class RsdnAndroidProvider extends ContentProvider {
              break;
 
          case FORUMS:
+        	 if (values.containsKey(Forums.SERVERID) == false) {
+                 values.put(Forums.SERVERID, 0);
+             }
         	 if (values.containsKey(Forums.FORUMGROUPID) == false) {
                  values.put(Forums.FORUMGROUPID, 0);
              }
@@ -1057,11 +1063,13 @@ public class RsdnAndroidProvider extends ContentProvider {
 
         sForumGroupsProjectionMap = new HashMap<String, String>();
         sForumGroupsProjectionMap.put(ForumGroups._ID, ForumGroups._ID);
+        sForumGroupsProjectionMap.put(ForumGroups.SERVERID, ForumGroups.SERVERID);
         sForumGroupsProjectionMap.put(ForumGroups.FORUMGROUPNAME, ForumGroups.FORUMGROUPNAME);
         sForumGroupsProjectionMap.put(ForumGroups.SORTORDER, ForumGroups.SORTORDER);
         
         sForumsProjectionMap = new HashMap<String, String>();
         sForumsProjectionMap.put(Forums._ID, Forums._ID);
+        sForumsProjectionMap.put(Forums.SERVERID, Forums.SERVERID);
         sForumsProjectionMap.put(Forums.FORUMGROUPID, Forums.FORUMGROUPID);
         sForumsProjectionMap.put(Forums.SHORTFORUMNAME, Forums.SHORTFORUMNAME);
         sForumsProjectionMap.put(Forums.FORUMNAME, Forums.FORUMNAME);

@@ -43,6 +43,12 @@ public final class RsdnAndroidDBStatic
         public static final String DEFAULT_SORT_ORDER = "sortOrder DESC";
 
         /**
+         * The server id of the forum group
+         * <P>Type: INTEGER</P>
+         */
+        public static final String SERVERID = "serverID";
+        
+        /**
          * The name of the forum
          * <P>Type: TEXT</P>
          */
@@ -82,6 +88,12 @@ public final class RsdnAndroidDBStatic
          * The default sort order for this table
          */
         public static final String DEFAULT_SORT_ORDER = "_id DESC";
+        
+        /**
+         * The server id of the forum
+         * <P>Type: INTEGER</P>
+         */
+        public static final String SERVERID = "serverID";
 
         /**
          * The id of the forum group

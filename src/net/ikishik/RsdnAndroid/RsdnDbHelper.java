@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class RsdnDbHelper extends SQLiteOpenHelper {
 
-	 private static final int DB_VERSION = 2;
+	 private static final int DB_VERSION = 3;
 	 private static final String DB_NAME = "rsdn.db";
 	 
 	 public static final String tbl_ForumGroups = "ForumGroups";
@@ -38,15 +38,18 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		
+		DropDB(db);
 		
 		String create_tbl_ForumGroups = "create table " + tbl_ForumGroups + " ( _id integer primary key autoincrement, "
-			    + "forumGroupName TEXT, " 
+				+ "serverID INTEGER, "
+				+ "forumGroupName TEXT, " 
 				+ "sortOrder INTEGER)";
 
 		db.execSQL(create_tbl_ForumGroups);
 		
 		
 		String create_tbl_Forums = "create table " + tbl_Forums + " ( _id integer primary key autoincrement, "
+				+ "serverID INTEGER, "
 				+ "forumGroupId INTEGER, "
 				+ "shortForumName VARCHAR(255), "
 				+ "forumName VARCHAR(255), "
@@ -173,30 +176,35 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		if(newVersion != oldVersion)
-		{
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_ForumGroups);
+		//if(newVersion != oldVersion)
+		//{
 			
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_Forums);
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_Users);
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_Messages);
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_Ratings);
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_Moderates);
-			
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_wMessages);
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_wRates);
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_wModerates);
-			
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_Exceptions);
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_RatingExceptions);
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_ModerateExceptions);
-			
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_UserRequests);
-			db.execSQL("DROP TABLE IF EXISTS " + tbl_DataRequests);
-			
+			//DropDB(db);
 			
 			onCreate(db);
-		}
+		//}
+	}
+	
+	private void DropDB(SQLiteDatabase db)
+	{
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_ForumGroups);
+		
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_Forums);
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_Users);
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_Messages);
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_Ratings);
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_Moderates);
+		
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_wMessages);
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_wRates);
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_wModerates);
+		
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_Exceptions);
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_RatingExceptions);
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_ModerateExceptions);
+		
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_UserRequests);
+		db.execSQL("DROP TABLE IF EXISTS " + tbl_DataRequests);
 	}
 
 }
