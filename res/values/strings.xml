@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, RsdnAndroidActivity!</string>
     <string name="app_name">RsdnAndroid</string>
+    <string name="synchronize_menu">Synchronize</string>
 </resources>

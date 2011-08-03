@@ -20,6 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ForumsActivity"
+            android:label="Forums">
+            <intent-filter android:label="View Forums">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.item/net.ikishik.forum" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

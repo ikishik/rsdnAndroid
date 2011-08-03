@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class RsdnDbHelper extends SQLiteOpenHelper {
 
-	 private static final int DB_VERSION = 3;
+	 private static final int DB_VERSION = 4;
 	 private static final String DB_NAME = "rsdn.db";
 	 
 	 public static final String tbl_ForumGroups = "ForumGroups";
@@ -40,16 +40,14 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 		
 		DropDB(db);
 		
-		String create_tbl_ForumGroups = "create table " + tbl_ForumGroups + " ( _id integer primary key autoincrement, "
-				+ "serverID INTEGER, "
+		String create_tbl_ForumGroups = "create table " + tbl_ForumGroups + " ( _id integer primary key, "
 				+ "forumGroupName TEXT, " 
 				+ "sortOrder INTEGER)";
 
 		db.execSQL(create_tbl_ForumGroups);
 		
 		
-		String create_tbl_Forums = "create table " + tbl_Forums + " ( _id integer primary key autoincrement, "
-				+ "serverID INTEGER, "
+		String create_tbl_Forums = "create table " + tbl_Forums + " ( _id integer primary key, "
 				+ "forumGroupId INTEGER, "
 				+ "shortForumName VARCHAR(255), "
 				+ "forumName VARCHAR(255), "
