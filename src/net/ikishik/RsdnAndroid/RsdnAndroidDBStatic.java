@@ -798,7 +798,7 @@ public final class RsdnAndroidDBStatic
         /**
          * The default sort order for this table
          */
-        public static final String DEFAULT_SORT_ORDER = "_id DESC";
+        public static final String DEFAULT_SORT_ORDER = "ReqDate DESC";
 
         /**
          * The ReqDate of the UserRequests
@@ -840,7 +840,7 @@ public final class RsdnAndroidDBStatic
         /**
          * The default sort order for this table
          */
-        public static final String DEFAULT_SORT_ORDER = "_id DESC";
+        public static final String DEFAULT_SORT_ORDER = "ReqDate DESC";
 
         /**
          * The ReqDate of the DataRequests

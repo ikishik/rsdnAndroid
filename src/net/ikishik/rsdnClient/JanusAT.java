@@ -45,4 +45,15 @@ public class JanusAT extends SoapWebService{
 		return ForumResponse.loadFrom(__response);
 	}
 	
+	public UserResponse GetNewUsers(UserRequest userRequest) throws Exception 
+	{
+		SoapRequest req;
+		req = buildSoapRequest("GetNewUsers","http://rsdn.ru/Janus/","http://rsdn.ru/Janus/GetNewUsers",null);
+		Element __request = req.method;
+		WSHelper.addChildNode(__request,"userRequest",null,userRequest);
+		SoapResponse sr = getSoapResponse(req);
+		Element __response = (Element)sr.body.getFirstChild().getFirstChild();
+		return UserResponse.loadFrom(__response);
+	}
+	
 }

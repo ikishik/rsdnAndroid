@@ -1,11 +1,9 @@
 package net.ikishik.RsdnAndroid;
 
-import java.util.Vector;
 
 
 import android.app.ListActivity;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -74,48 +72,15 @@ public class RsdnAndroidActivity extends ListActivity {
     	
     		if(item.getItemId() == 1)
     		{
-    			JanusAT service = new JanusAT();
-    	        ForumRequest creq = new ForumRequest();
-    	        creq.setuserName("Demandred");
-    	        creq.setpassword("kishik");
-    	        
-    	        
-    	        try {
-    	        	getContentResolver().delete(ForumGroups.CONTENT_URI, null, null);
-    	        	getContentResolver().delete(Forums.CONTENT_URI, null, null);
-    	        	
-    	        	ForumResponse resp = service.GetForumList(creq);
+    			try {
     				
-    				Vector<JanusForumGroupInfo> forumGroups = resp.getgroupList();
-    				Vector<JanusForumInfo> forums = resp.getforumList();
+    				Synchroner.syncForumsAndGrousp(getContentResolver());
     				
-    				for(JanusForumGroupInfo fg : forumGroups)
-    				{
-    					 ContentValues values = new ContentValues();
-    			         
-    					 values.put(ForumGroups._ID, fg.getforumGroupId());
-    					 values.put(ForumGroups.FORUMGROUPNAME, fg.getforumGroupName());
-    					 values.put(ForumGroups.SORTORDER, fg.getsortOrder());
-    					
-    			         
-    			         getContentResolver().insert(ForumGroups.CONTENT_URI, values);
-    				}
+    				Synchroner.syncNewUsers(getContentResolver());
     				
-    				for(JanusForumInfo fi : forums)
-    				{
-    					 ContentValues values = new ContentValues();
-    			         
-    					 values.put(Forums._ID, fi.getforumId());
-    					 values.put(Forums.FORUMGROUPID, fi.getforumGroupId());
-    					 values.put(Forums.FORUMNAME, fi.getforumName());
-    					 values.put(Forums.INTOP, fi.getinTop());
-    					 values.put(Forums.RATED, fi.getrated());
-    					 values.put(Forums.RATELIMIT, fi.getrateLimit());
-    					 values.put(Forums.SHORTFORUMNAME, fi.getshortForumName());
-    			         
-    			         getContentResolver().insert(Forums.CONTENT_URI, values);
-    				}
+    				Synchroner.syncNewData(getContentResolver());
     				
+    	    	    
     	        }	
     			catch (Exception e) {
     				e.printStackTrace();

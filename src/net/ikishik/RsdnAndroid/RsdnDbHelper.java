@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class RsdnDbHelper extends SQLiteOpenHelper {
 
-	 private static final int DB_VERSION = 4;
+	 private static final int DB_VERSION = 5;
 	 private static final String DB_NAME = "rsdn.db";
 	 
 	 public static final String tbl_ForumGroups = "ForumGroups";
@@ -57,7 +57,7 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 
 		db.execSQL(create_tbl_Forums);
 		
-		String create_tbl_Users = "create table " + tbl_Users + " ( _id integer primary key autoincrement, "
+		String create_tbl_Users = "create table " + tbl_Users + " ( _id integer primary key, "
 				+ "userName VARCHAR(255), "
 				+ "userNick VARCHAR(255), "
 				+ "realName VARCHAR(255), "
@@ -70,7 +70,7 @@ public class RsdnDbHelper extends SQLiteOpenHelper {
 
 		db.execSQL(create_tbl_Users);
 		
-		String create_tbl_Messages = "create table " + tbl_Messages + " ( _id integer primary key autoincrement, "
+		String create_tbl_Messages = "create table " + tbl_Messages + " ( _id integer primary key, "
 				+ "topicId INTEGER, "
 				+ "parentId INTEGER, "
 				+ "userId INTEGER, "
