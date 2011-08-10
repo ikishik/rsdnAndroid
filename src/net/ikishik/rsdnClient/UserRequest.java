@@ -1,7 +1,9 @@
 package net.ikishik.rsdnClient;
 
 import com.neurospeech.wsclient.*;
+
 import org.w3c.dom.*;
+import org.apache.commons.codec.binary.Base64;
 
 public class UserRequest extends WSObject
 {
@@ -20,11 +22,11 @@ public class UserRequest extends WSObject
 	public void setpassword(String value){
 		_password = value;
 	}
-	private String _lastRowVersion;
-	public String getlastRowVersion(){
+	private byte[] _lastRowVersion;
+	public byte[] getlastRowVersion(){
 		return _lastRowVersion;
 	}
-	public void setlastRowVersion(String value){
+	public void setlastRowVersion(byte[] value){
 		_lastRowVersion = value;
 	}
 	private Integer _maxOutput;
@@ -50,7 +52,10 @@ public class UserRequest extends WSObject
 	{
 		this.setuserName(WSHelper.getString(root,"userName",false));
 		this.setpassword(WSHelper.getString(root,"password",false));
-		this.setlastRowVersion(WSHelper.getString(root,"lastRowVersion",false));
+		
+		byte[] lrw = Base64.decodeBase64(WSHelper.getString(root,"lastRowVersion",false));
+		this.setlastRowVersion(lrw);
+		
 		this.setmaxOutput(WSHelper.getInteger(root,"maxOutput",false));
 	}
 	
@@ -70,7 +75,10 @@ public class UserRequest extends WSObject
 		if(_password != null)
 			WSHelper.addChild(e,"password",String.valueOf(_password),false);
 		if(_lastRowVersion != null)
-			WSHelper.addChild(e,"lastRowVersion",String.valueOf(_lastRowVersion),false);
+		{
+			String value = new String(Base64.encodeBase64(_lastRowVersion));
+			WSHelper.addChild(e,"lastRowVersion",value,false);
+		}
 		WSHelper.addChild(e,"maxOutput",String.valueOf(_maxOutput),false);
 	}
 	

@@ -111,6 +111,7 @@ public class Synchroner {
 	    	    creq.setmessageRowVersion(messageRowVersion);
 	    	    creq.setmoderateRowVersion(moderateRowVersion);
 	    	    creq.setratingRowVersion(ratingRowVersion);
+	    	    creq.setmaxOutput(10);
 	    	    
 	    	    Vector<RequestForumInfo> req_forums = new Vector<RequestForumInfo>();
 	    	    
@@ -217,21 +218,22 @@ public class Synchroner {
 		
 		 try {
 			 
-			 String lastRowVersion = ""; 
-	    	 
+			 byte[] lastRowVersion = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+			 
 	    	 Cursor cursor = resolver.query(UserRequests.CONTENT_URI, new String[] {UserRequests.LASTROWVERSION }
 	    	    , null, null, UserRequests.DEFAULT_SORT_ORDER);
 			 
 	    	 if(cursor.moveToFirst())
 	    	 {
 	    	    	int nameColumn = cursor.getColumnIndex(UserRequests.LASTROWVERSION);
-	    	    	lastRowVersion = cursor.getString(nameColumn);
+	    	    	lastRowVersion = cursor.getString(nameColumn).getBytes();
 	    	 }
 	    	 
 	    	 UserRequest ureq = new UserRequest();
 	    	 ureq.setuserName("Demandred");
 	    	 ureq.setpassword("kishik");
 	    	 ureq.setlastRowVersion(lastRowVersion);
+	    	 ureq.setmaxOutput(100);
 	    	    
 	    	 UserResponse uresp = js.GetNewUsers(ureq);
 	    	    
