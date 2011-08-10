@@ -330,6 +330,14 @@ public class WSHelper {
 		return Float.parseFloat(val);
 	}
 	
+	public static byte[] getByte(Element root, String name, boolean isAttribute)
+	{
+		String val = WSHelper.getString(root, name, isAttribute);
+		if(val==null)
+			return new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		return val.getBytes();
+	}
+	
 	
 	public static String stringValueOf(Date date){
 		return WSDateParser.toString(date);

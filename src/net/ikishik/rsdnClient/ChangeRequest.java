@@ -1,4 +1,5 @@
 package net.ikishik.rsdnClient;
+import org.apache.commons.codec.binary.Base64;
 
 import com.neurospeech.wsclient.*;
 import org.w3c.dom.*;
@@ -27,25 +28,25 @@ public class ChangeRequest extends WSObject
 	public void setsubscribedForums(java.util.Vector<RequestForumInfo> value){
 		_subscribedForums = value;
 	}
-	private String _ratingRowVersion;
-	public String getratingRowVersion(){
+	private byte[] _ratingRowVersion;
+	public byte[] getratingRowVersion(){
 		return _ratingRowVersion;
 	}
-	public void setratingRowVersion(String value){
+	public void setratingRowVersion(byte[] value){
 		_ratingRowVersion = value;
 	}
-	private String _messageRowVersion;
-	public String getmessageRowVersion(){
+	private byte[] _messageRowVersion;
+	public byte[] getmessageRowVersion(){
 		return _messageRowVersion;
 	}
-	public void setmessageRowVersion(String value){
+	public void setmessageRowVersion(byte[] value){
 		_messageRowVersion = value;
 	}
-	private String _moderateRowVersion;
-	public String getmoderateRowVersion(){
+	private byte[] _moderateRowVersion;
+	public byte[] getmoderateRowVersion(){
 		return _moderateRowVersion;
 	}
-	public void setmoderateRowVersion(String value){
+	public void setmoderateRowVersion(byte[] value){
 		_moderateRowVersion = value;
 	}
 	private java.util.Vector<Integer> _breakMsgIds = new java.util.Vector<Integer>();
@@ -96,9 +97,15 @@ public class ChangeRequest extends WSObject
 				_subscribedForums.addElement(RequestForumInfo.loadFrom(nc));
 			}
 		}
-		this.setratingRowVersion(WSHelper.getString(root,"ratingRowVersion",false));
-		this.setmessageRowVersion(WSHelper.getString(root,"messageRowVersion",false));
-		this.setmoderateRowVersion(WSHelper.getString(root,"moderateRowVersion",false));
+		byte[] rrw = Base64.decodeBase64(WSHelper.getString(root,"ratingRowVersion",false));
+		this.setratingRowVersion(rrw);
+		
+		byte[] mrw = Base64.decodeBase64(WSHelper.getString(root,"messageRowVersion",false));
+		this.setmessageRowVersion(mrw);
+		
+		byte[] morw = Base64.decodeBase64(WSHelper.getString(root,"moderateRowVersion",false));
+		this.setmoderateRowVersion(morw);
+		
 		list = WSHelper.getElementChildren(root, "breakMsgIds");
 		if(list != null)
 		{
@@ -136,13 +143,22 @@ public class ChangeRequest extends WSObject
 		if(_password != null)
 			WSHelper.addChild(e,"password",String.valueOf(_password),false);
 		if(_subscribedForums != null)
-			WSHelper.addChildArray(e,"subscribedForums",null,null, _subscribedForums);
+			WSHelper.addChildArray(e,null,"subscribedForums",null, _subscribedForums);
 		if(_ratingRowVersion != null)
-			WSHelper.addChild(e,"ratingRowVersion",String.valueOf(_ratingRowVersion),false);
+		{
+			String value = new String(Base64.encodeBase64(_ratingRowVersion));
+			WSHelper.addChild(e,"ratingRowVersion",value,false);
+		}
 		if(_messageRowVersion != null)
-			WSHelper.addChild(e,"messageRowVersion",String.valueOf(_messageRowVersion),false);
+		{
+			String value = new String(Base64.encodeBase64(_messageRowVersion));
+			WSHelper.addChild(e,"messageRowVersion",value,false);
+		}
 		if(_moderateRowVersion != null)
-			WSHelper.addChild(e,"moderateRowVersion",String.valueOf(_moderateRowVersion),false);
+		{
+			String value = new String(Base64.encodeBase64(_moderateRowVersion));
+			WSHelper.addChild(e,"moderateRowVersion",value,false);
+		}
 		if(_breakMsgIds != null)
 			WSHelper.addChildArray(e,null,"breakMsgIds","int",_breakMsgIds);
 		if(_breakTopicIds != null)

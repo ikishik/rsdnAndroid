@@ -529,6 +529,9 @@ public class RsdnAndroidProvider extends ContentProvider {
              if (values.containsKey(Messages.FORUMID) == false) {
                  values.put(Messages.FORUMID, 0);
              }
+             if (values.containsKey(Messages.STATUS) == false) {
+                 values.put(Messages.STATUS, 0);
+             }
              if (values.containsKey(Messages.SUBJECT) == false) {
                  values.put(Messages.SUBJECT, "");
              }
@@ -1094,6 +1097,7 @@ public class RsdnAndroidProvider extends ContentProvider {
         sMessagesProjectionMap.put(Messages.PARENTID, Messages.PARENTID);
         sMessagesProjectionMap.put(Messages.USERID, Messages.USERID);
         sMessagesProjectionMap.put(Messages.FORUMID, Messages.FORUMID);
+        sMessagesProjectionMap.put(Messages.STATUS, wMessages.STATUS);
         sMessagesProjectionMap.put(Messages.SUBJECT, Messages.SUBJECT);
         sMessagesProjectionMap.put(Messages.MESSAGENAME, Messages.MESSAGENAME);
         sMessagesProjectionMap.put(Messages.USERNICK, Messages.USERNICK);

@@ -74,9 +74,9 @@ public class RsdnAndroidActivity extends ListActivity {
     		{
     			try {
     				
-    				Synchroner.syncForumsAndGrousp(getContentResolver());
+    				//Synchroner.syncForumsAndGrousp(getContentResolver());
     				
-    				Synchroner.syncNewUsers(getContentResolver());
+    				//Synchroner.syncNewUsers(getContentResolver());
     				
     				Synchroner.syncNewData(getContentResolver());
     				

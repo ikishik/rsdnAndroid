@@ -35,7 +35,7 @@ public class Synchroner {
 	        	ForumRequest freq = new ForumRequest();
 	    	    freq.setuserName("Demandred");
 	    	    freq.setpassword("kishik");
-	    	    freq.setforumsRowVersion("00000000");
+	    	    freq.setforumsRowVersion("");
 	    	        
 	    	    resolver.delete(ForumGroups.CONTENT_URI, null, null);
 	    	    resolver.delete(Forums.CONTENT_URI, null, null);
@@ -85,9 +85,9 @@ public class Synchroner {
 		JanusAT js = getService();
 		
 		 try {
-			 String messageRowVersion = "00000000"; 
-			 String moderateRowVersion = "00000000";
-			 String ratingRowVersion = "00000000";
+			 byte[] messageRowVersion = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }; 
+			 byte[] moderateRowVersion = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+			 byte[] ratingRowVersion = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 	    	 
 	    	 Cursor cursorRV = resolver.query(DataRequests.CONTENT_URI
 	    		, new String[] {DataRequests.REQDATE, DataRequests.MESSAGEROWVERSION, DataRequests.MODERATEROWVERSION, DataRequests.RATINGROWVERSION}
@@ -96,13 +96,13 @@ public class Synchroner {
 	    	 if(cursorRV.moveToFirst())
 	    	 {
 	    	    	int nameColumn = cursorRV.getColumnIndex(DataRequests.MESSAGEROWVERSION);
-	    	    	messageRowVersion = cursorRV.getString(nameColumn);
+	    	    	messageRowVersion = cursorRV.getString(nameColumn).getBytes();
 	    	    	
 	    	    	nameColumn = cursorRV.getColumnIndex(DataRequests.MODERATEROWVERSION);
-	    	    	moderateRowVersion = cursorRV.getString(nameColumn);
+	    	    	moderateRowVersion = cursorRV.getString(nameColumn).getBytes();
 	    	    	
 	    	    	nameColumn = cursorRV.getColumnIndex(DataRequests.RATINGROWVERSION);
-	    	    	ratingRowVersion = cursorRV.getString(nameColumn);
+	    	    	ratingRowVersion = cursorRV.getString(nameColumn).getBytes();
 	    	 }
 			 
 			 ChangeRequest creq = new ChangeRequest();
@@ -127,6 +127,7 @@ public class Synchroner {
 	    	    	
 	    	    	RequestForumInfo rf = new RequestForumInfo();
 	    	    	rf.setforumId(for_id);
+	    	    	rf.setisFirstRequest(true);
 	    	    	
 	    	    	req_forums.add(rf);
 				}
@@ -145,6 +146,7 @@ public class Synchroner {
 					 values.put(Messages.PARENTID, mi.getparentId());
 					 values.put(Messages.USERID, mi.getuserId());
 					 values.put(Messages.FORUMID, mi.getforumId());
+					 values.put(Messages.STATUS, 0);
 					 values.put(Messages.SUBJECT, mi.getsubject());
 					 values.put(Messages.MESSAGENAME, mi.getmessageName());
 					 values.put(Messages.USERNICK, mi.getuserNick());
@@ -215,9 +217,9 @@ public class Synchroner {
 		
 		 try {
 			 
-			 String lastRowVersion = "00000000"; 
+			 String lastRowVersion = ""; 
 	    	 
-	    	 Cursor cursor = resolver.query(UserRequests.CONTENT_URI, new String[] {UserRequests.REQDATE, UserRequests.LASTROWVERSION }
+	    	 Cursor cursor = resolver.query(UserRequests.CONTENT_URI, new String[] {UserRequests.LASTROWVERSION }
 	    	    , null, null, UserRequests.DEFAULT_SORT_ORDER);
 			 
 	    	 if(cursor.moveToFirst())

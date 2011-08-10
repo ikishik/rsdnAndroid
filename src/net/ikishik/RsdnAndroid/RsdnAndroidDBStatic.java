@@ -255,6 +255,12 @@ public final class RsdnAndroidDBStatic
          * <P>Type: INTEGER</P>
          */
         public static final String FORUMID = "forumId";
+        
+        /**
+         * The status of the message
+         * <P>Type: INTEGER</P>
+         */
+        public static final String STATUS = "Status";
 
         /**
          * The subject of the message
