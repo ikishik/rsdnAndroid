@@ -131,7 +131,7 @@ public class Synchroner {
 	    	    	rf.setisFirstRequest(true);
 	    	    	
 	    	    	req_forums.add(rf);
-				}
+				
 	    	    
 	    	    creq.setsubscribedForums(req_forums);
 				
@@ -203,6 +203,8 @@ public class Synchroner {
 				 values.put(DataRequests.RATINGROWVERSION, cresp.getlastRatingRowVersion());
 					
 				 resolver.insert(DataRequests.CONTENT_URI, values);
+				 
+				}
 	    	    
 	        }	
 			catch (Exception e) {
