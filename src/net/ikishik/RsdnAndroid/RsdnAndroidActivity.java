@@ -62,6 +62,7 @@ public class RsdnAndroidActivity extends ListActivity {
     	super.onCreateOptionsMenu(menu);
     	
     	menu.add(0,1,0, R.string.synchronize_menu);
+    	menu.add(0,2,0, R.string.preferences_menu);
     	
     	return true;
     }
@@ -81,6 +82,21 @@ public class RsdnAndroidActivity extends ListActivity {
     				Synchroner.syncNewData(getContentResolver());
     				
     	    	    
+    	        }	
+    			catch (Exception e) {
+    				e.printStackTrace();
+    			}
+    			
+    	        return true;
+    		}
+    		if(item.getItemId() == 2)
+    		{
+    			try {
+    				
+    				Intent intent = new Intent();
+    				intent.setClass(this, PreferencesActivity.class);
+    				
+    				startActivity(intent);
     	        }	
     			catch (Exception e) {
     				e.printStackTrace();

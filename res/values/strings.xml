@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, RsdnAndroidActivity!</string>
     <string name="app_name">RsdnAndroid</string>
     <string name="synchronize_menu">Synchronize</string>
+    <string name="preferences_menu">Preferences</string>
+    <string name="pr_user_name">UserName</string>
+    <string name="pr_user_password">UserPassword</string>
+    <string name="pr_synk_forum_list">SyncForumList</string>
+    <string name="pr_forum_list">ForumList</string>
 </resources>

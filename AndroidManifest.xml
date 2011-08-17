@@ -28,5 +28,9 @@
                 <data android:mimeType="vnd.android.cursor.item/net.ikishik.forum" />
             </intent-filter>
         </activity>
+        <activity 
+        	android:name=".PreferencesActivity"
+            android:label="Preferences">
+        </activity>
     </application>
 </manifest>

@@ -1,0 +1,30 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Account preferences">
+    	<EditTextPreference 
+    		android:key="@string/pr_user_name" 
+    		android:title="User Login" 
+    		android:summary="Set User Login" 
+    		android:defaultValue="" 
+    		android:dialogTitle="Enter User Login" />
+    	<EditTextPreference 
+    		android:key="@string/pr_user_password" 
+    		android:title="User Password" 
+    		android:summary="Set User Password" 
+    		android:defaultValue="" 
+    		android:dialogTitle="Enter User Password" /> 
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Synchronize preferences">
+    	<CheckBoxPreference
+            android:key="@string/pr_synk_forum_list"
+            android:title="Synchronize forum list at start"
+            android:defaultValue="false"
+            android:summary="Synchronize forum list at start"/>
+        <ListPreference
+            android:key="@string/pr_forum_list"
+            android:title="Forum List"
+            android:summary="Forum List"
+            android:defaultValue="1"
+            android:dialogTitle="Choose forums"/>
+    </PreferenceCategory>
+</PreferenceScreen>
