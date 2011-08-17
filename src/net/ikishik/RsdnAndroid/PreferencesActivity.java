@@ -44,7 +44,7 @@ public class PreferencesActivity extends PreferenceActivity {
         		
         
         	forumList.setEntries(entries);
-        	forumList.setEntries(entryValues);
+        	forumList.setEntryValues(entryValues);
         	
         }
         catch (Exception e) {
