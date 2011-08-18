@@ -3,7 +3,6 @@ package net.ikishik.RsdnAndroid;
 import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.Forums;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 
 public class PreferencesActivity extends PreferenceActivity {
@@ -40,7 +39,7 @@ public class PreferencesActivity extends PreferenceActivity {
         } 
         
         try {
-        	ListPreference forumList = (ListPreference)findPreference("ForumList"); 
+        	ListPreferenceMultiSelect forumList = (ListPreferenceMultiSelect)findPreference("ForumList"); 
         		
         
         	forumList.setEntries(entries);

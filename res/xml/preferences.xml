@@ -20,11 +20,11 @@
             android:title="Synchronize forum list at start"
             android:defaultValue="false"
             android:summary="Synchronize forum list at start"/>
-        <ListPreference
-            android:key="@string/pr_forum_list"
-            android:title="Forum List"
-            android:summary="Forum List"
-            android:defaultValue="1"
-            android:dialogTitle="Choose forums"/>
+        <net.ikishik.RsdnAndroid.ListPreferenceMultiSelect 
+        	android:defaultValue="#ALL#"
+			android:key="@string/pr_forum_list"
+			android:title="Forum List" 
+			android:dialogTitle="Choose forums"
+			android:summary="Forum List"/>
     </PreferenceCategory>
 </PreferenceScreen>
