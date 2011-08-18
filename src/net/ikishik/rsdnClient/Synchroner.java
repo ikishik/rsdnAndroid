@@ -3,6 +3,7 @@ package net.ikishik.rsdnClient;
 import java.util.Date;
 import java.util.Vector;
 
+import net.ikishik.RsdnAndroid.ListPreferenceMultiSelect;
 import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.ForumGroups;
 import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.Forums;
 import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.Messages;
@@ -13,6 +14,7 @@ import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.UserRequests;
 import net.ikishik.RsdnAndroid.RsdnAndroidDBStatic.DataRequests;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 
 public class Synchroner {
@@ -27,14 +29,18 @@ public class Synchroner {
 		Synchroner.service = service;
 	}
 	
-	public static Boolean syncForumsAndGrousp(ContentResolver resolver)
+	public static Boolean syncForumsAndGrousp(ContentResolver resolver, SharedPreferences prefs)
 	{
 		JanusAT js = getService();
 		
 		 try {
-	        	ForumRequest freq = new ForumRequest();
-	    	    freq.setuserName("Demandred");
-	    	    freq.setpassword("kishik");
+			 
+			 String userName = prefs.getString("UserName" , "");
+		     String UserPassword = prefs.getString("UserPassword" , "");
+			 
+			 ForumRequest freq = new ForumRequest();
+	    	    freq.setuserName(userName);
+	    	    freq.setpassword(UserPassword);
 	    	    freq.setforumsRowVersion("");
 	    	        
 	    	    resolver.delete(ForumGroups.CONTENT_URI, null, null);
@@ -80,11 +86,14 @@ public class Synchroner {
 		return true;
 	}
 	
-	public static Boolean syncNewData(ContentResolver resolver)
+	public static Boolean syncNewData(ContentResolver resolver, SharedPreferences prefs)
 	{
 		JanusAT js = getService();
 		
 		 try {
+			 String userName = prefs.getString("UserName" , "");
+		     String UserPassword = prefs.getString("UserPassword" , "");
+			 
 			 byte[] messageRowVersion = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }; 
 			 byte[] moderateRowVersion = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 			 byte[] ratingRowVersion = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -106,8 +115,8 @@ public class Synchroner {
 	    	 }
 			 
 			 ChangeRequest creq = new ChangeRequest();
-	    	    creq.setuserName("Demandred");
-	    	    creq.setpassword("kishik");
+	    	    creq.setuserName(userName);
+	    	    creq.setpassword(UserPassword);
 	    	    creq.setmessageRowVersion(messageRowVersion);
 	    	    creq.setmoderateRowVersion(moderateRowVersion);
 	    	    creq.setratingRowVersion(ratingRowVersion);
@@ -115,8 +124,20 @@ public class Synchroner {
 	    	    
 	    	    Vector<RequestForumInfo> req_forums = new Vector<RequestForumInfo>();
 	    	    
+	    	    String rawval = prefs.getString("ForumList", "");
+	    	    String[] selected = ListPreferenceMultiSelect.parseStoredValue(rawval);
 	    	    
-	    	    Cursor cursor = resolver.query(Forums.CONTENT_URI, new String[] {Forums._ID }
+	    	    for(String frm : selected)
+	    	    {
+	    	    	int frm_id = Integer.parseInt(frm);
+	    	    	
+	    	    	RequestForumInfo rf = new RequestForumInfo();
+	    	    	rf.setforumId(frm_id);
+	    	    	rf.setisFirstRequest(true);
+	    	    }
+	    	    
+	    	    
+	    	    /*Cursor cursor = resolver.query(Forums.CONTENT_URI, new String[] {Forums._ID }
 	    	    , null, null, Forums.DEFAULT_SORT_ORDER);
 	    	    
 	    	    
@@ -131,6 +152,7 @@ public class Synchroner {
 	    	    	rf.setisFirstRequest(true);
 	    	    	
 	    	    	req_forums.add(rf);
+				}*/
 				
 	    	    
 	    	    creq.setsubscribedForums(req_forums);
@@ -204,7 +226,6 @@ public class Synchroner {
 					
 				 resolver.insert(DataRequests.CONTENT_URI, values);
 				 
-				}
 	    	    
 	        }	
 			catch (Exception e) {
@@ -214,11 +235,14 @@ public class Synchroner {
 		return true;
 	}
 	
-	public static Boolean syncNewUsers(ContentResolver resolver)
+	public static Boolean syncNewUsers(ContentResolver resolver, SharedPreferences prefs)
 	{
 		JanusAT js = getService();
 		
 		 try {
+			 
+			 String userName = prefs.getString("UserName" , "");
+		     String UserPassword = prefs.getString("UserPassword" , "");
 			 
 			 byte[] lastRowVersion = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 			 
@@ -232,8 +256,8 @@ public class Synchroner {
 	    	 }
 	    	 
 	    	 UserRequest ureq = new UserRequest();
-	    	 ureq.setuserName("Demandred");
-	    	 ureq.setpassword("kishik");
+	    	 ureq.setuserName(userName);
+	    	 ureq.setpassword(UserPassword);
 	    	 ureq.setlastRowVersion(lastRowVersion);
 	    	 ureq.setmaxOutput(100);
 	    	    

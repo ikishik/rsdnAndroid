@@ -5,10 +5,12 @@ package net.ikishik.RsdnAndroid;
 import android.app.ListActivity;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,20 +31,13 @@ public class RsdnAndroidActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.main);
         
         RsdnDbHelper dbOpenHelper = new RsdnDbHelper(RsdnAndroidActivity.this);
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-       
-      
         db.close();
         
-        //Intent intent = getIntent();
-        //if (intent.getData() == null) {
-            //intent.setData(Forums.CONTENT_URI);
-        //}
+        CheckPrefs();
         
-        //Uri mUri = getIntent().getData();
                 
         Cursor cursor = managedQuery(ForumGroups.CONTENT_URI, PROJECTION, null, null,
         		ForumGroups.DEFAULT_SORT_ORDER);
@@ -50,10 +45,21 @@ public class RsdnAndroidActivity extends ListActivity {
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.activity_list_item , cursor,
                 new String[] { ForumGroups.FORUMGROUPNAME }, new int[] { android.R.id.text1 });
         setListAdapter(adapter);
-        
-       
-        
-        
+   }
+    
+    private void CheckPrefs()
+    {
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    	String userName = prefs.getString("UserName" , "");
+    	String UserPassword = prefs.getString("UserPassword" , "");
+    	
+    	if(userName == "" || UserPassword == "")
+    	{
+    		Intent intent = new Intent();
+			intent.setClass(this, PreferencesActivity.class);
+			
+			startActivity(intent);
+    	}
     }
     
     @Override
@@ -75,11 +81,13 @@ public class RsdnAndroidActivity extends ListActivity {
     		{
     			try {
     				
-    				Synchroner.syncForumsAndGrousp(getContentResolver());
+    				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);	
     				
-    				//Synchroner.syncNewUsers(getContentResolver());
+    				Synchroner.syncForumsAndGrousp(getContentResolver(), prefs);
     				
-    				//Synchroner.syncNewData(getContentResolver());
+    				//Synchroner.syncNewUsers(getContentResolver(), prefs);
+    				
+    				//Synchroner.syncNewData(getContentResolver(), prefs);
     				
     	    	    
     	        }	
@@ -116,14 +124,8 @@ public class RsdnAndroidActivity extends ListActivity {
 		Uri uri = ContentUris.withAppendedId(Forums.CONTENT_URI, id);
 		
 		Intent frmInt = new Intent(Intent.ACTION_VIEW, uri);
-		//frmInt.putExtra("group_id", id);
 		
 		startActivity(frmInt);
-		
-		// Get the item that was clicked
-		//Object o = this.getListAdapter().getItem(position);
-		//String keyword = o.toString();
-		
 	}
 
 
